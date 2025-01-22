@@ -31,23 +31,28 @@ const setWindowSize = () => {
 }
 const setBodyCss = () => {
   let doc = iframeRef.value.contentDocument;
+  console.log(doc);
   if (doc) {
     const textWidth = iframeRef.value.width / 2 - 80;
     const style = `width: auto;height: 100%;overflow-y: hidden;overflow-X: hidden;padding-left: 0px;padding: 10px;margin: 0px;box-sizing: border-box;max-width: inherit;column-fill: auto;column-gap: 60px; column-width:${textWidth}px;`;
-    doc.setAttribute("style", style);
-    contentRange.selectNodeContents(doc.body)
-    const contentRect = contentRange.getBoundingClientRect()
-    const pages = Math.round(contentRect.width / iframeRef.value.width)
-    console.log("全部宽度", contentRect.width)
-    console.log("显示宽度", iframeRef.value.width)
-    console.log('页数', pages)
-    iframeRef.value.style.width = 5000;
+    doc.documentElement.setAttribute("style", style);
+    contentRange.selectNodeContents(doc.body);
+    const contentRect = contentRange.getBoundingClientRect();
+    const pages = Math.round(contentRect.width / iframeRef.value.width);
+    console.log("全部宽度", contentRect.width);
+    console.log("显示宽度", iframeRef.value.width);
+    console.log('页数', pages);
   }
 
 }
 
 // 监听resize事件
 window.addEventListener('resize', handleResize);
+
+const setStylesImportant = (el, styles) => {
+  const { style } = el
+  for (const [k, v] of Object.entries(styles)) style.setProperty(k, v, 'important')
+}
 </script>
 
 <template>
